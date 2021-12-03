@@ -4,10 +4,9 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const dotenv = require("dotenv");
-const { ExtractJwt, Strategy } = passportJWT;
 
 dotenv.config();
-
+const { ExtractJwt, Strategy } = passportJWT;
 const userService = require("./user-service.js");
 const app = express();
 const HTTP_PORT = process.env.PORT || 8080;
@@ -31,13 +30,12 @@ passport.use(
   )
 );
 
-/* TODO Add Your Routes Here */
 app.post("/api/user/register", async (req, res) => {
   try {
     await userService.registerUser(req.body).then((result) => {
-        res.json({
-            message: result,
-        });
+      res.json({
+        message: result,
+      });
     });
   } catch (err) {
     res.status(422).json({
@@ -49,19 +47,19 @@ app.post("/api/user/register", async (req, res) => {
 app.post("/api/user/login", async (req, res) => {
   try {
     await userService.checkUser(req.body).then((user) => {
-        if (user) {
+      if (user) {
         const payload = {
-            _id: user._id,
-            username: user.userName,
+          _id: user._id,
+          username: user.userName,
         };
         const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "3d",
+          expiresIn: "3d",
         });
         res.json({
-            message: "Login Successful",
-            token: token,
+          message: "Login Successful",
+          token: token,
         });
-        }
+      }
     });
   } catch (err) {
     res.status(422).json({
@@ -107,9 +105,9 @@ app.put(
 app.delete(
   "/api/user/favourites/:id",
   passport.authenticate("jwt", { session: false }),
-   async (req, res) => {
+  async (req, res) => {
     try {
-       await userService
+      await userService
         .removeFavourite(req.user._id, req.params.id)
         .then((favourites) => {
           res.json(favourites);
