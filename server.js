@@ -78,7 +78,7 @@ app.get(
       });
     } catch (err) {
       res.json({
-        message: err,
+        error: err,
       });
     }
   }
@@ -96,7 +96,7 @@ app.put(
         });
     } catch (err) {
       res.json({
-        message: err,
+        error: err,
       });
     }
   }
@@ -114,7 +114,7 @@ app.delete(
         });
     } catch (err) {
       res.json({
-        message: err,
+        error: err,
       });
     }
   }
